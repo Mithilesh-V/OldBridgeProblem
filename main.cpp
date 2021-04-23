@@ -10,7 +10,7 @@ using namespace std;
 int currentdirection; // 0 or 1
 int cars; // no of cars on the bridge
 int waiters[2];
-pthread_cond_t waitingToGo[2]; //waiting queues for each direction
+pthread_cond_t waitingToGo[2]; //waiting queues for each direction created using conditional variable.
 pthread_mutex_t lock;
 int Max_Run = 1;
 
@@ -69,7 +69,7 @@ int isSafe(int direction)
 void ArriveBridge(int direction)
 {
         pthread_mutex_lock(&lock);
-        // while can't get on the bridge, wait
+                                                                // wait while can't get on the bridge
 
         while (isSafe(direction))
         {
@@ -78,7 +78,7 @@ void ArriveBridge(int direction)
                 waiters[direction]--;
         }
 
-        // get on the bridge
+                                                                 // get on the bridge
         cars++;
 
         currentdirection = direction;
@@ -91,16 +91,16 @@ void ExitBridge()
 {
         pthread_mutex_lock(&lock);
 
-        // get off the bridge
+                                                                        // get off the bridge
         cars--;
 
-        // if anybody wants to go the same direction, wake them
+                                                                        // if anybody wants to go the same direction wake them
         if (waiters[currentdirection] > 0)
         {
                 pthread_cond_signal(&waitingToGo[currentdirection]);
         }
 
-        // else if empty, try to wake somebody going the other way
+                                                                        // try to wake somebody going the other way if cars on bridge is 0
         else if (cars == 0)
         {
                 pthread_cond_broadcast(&waitingToGo[1-currentdirection]);

@@ -10,8 +10,14 @@
 
   4) Whenever the bridge is not empty or full and a car is waiting to go the same direction as the cars on the bridge, that car should get on the bridge
 
-### Only one thread accesses shared state at a time
+Only one thread accesses shared state at a time
 
-### Cars will be waiting to get on the bridge, but in two directions. Use an array of two condition variables, waitingToGo[2].
+## Implementation
 
-### It will be necessary to know the number of cars on the bridge (cars, initialized to 0), and the direction of these cars if there are any (call it currentdirection). It will also be useful to know the number of cars waiting to go in each direction; use an array waiters[2].
+  1) Cars will be waiting to get on the bridge, but in two directions, Thus Used an array of two condition variables, waitingToGo[2].
+  
+  2) The number of cars on the bridge (cars, initialized to 0), 
+  
+  3) The direction of these cars if there are any (used currentdirection with values 0 and 1 to specify direction). 
+  
+  4) The number of cars waiting to go in each direction used an array waiters[2].
